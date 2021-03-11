@@ -5,29 +5,18 @@ import { useState } from 'react';
 import flowers from './data';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Images from './Images';
 
 
 
-function Home() {
-
-    let getImg = () => {
-        const getDiv = document.getElementById("first");
-        const listItems = flowers.map((flowers) =>
-            <li>{ <img src={flowers['picture']} /> } <br/> {flowers['name']} </li>
-        );
-        ReactDOM.render(
-            <ul>{listItems}</ul>,
-            getDiv
-        );
-    }
+function Home(props) {
 
     return (
-        <Row>
-            <Col>
-
-                <div id="first" makeCall={getImg()}></div>
-            </Col>
-        </Row>
+        <div>
+        {flowers.map((flowers) => (
+            <li>{ <img src={flowers['picture']} /> } <br/> {flowers['name']} </li>
+        ))}
+        </div>
     );
 
 
