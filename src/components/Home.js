@@ -5,7 +5,7 @@ import { useState } from 'react';
 import flowers from './data';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import reactDom from 'react-dom';
+
 
 
 function Home() {
@@ -25,7 +25,7 @@ function Home() {
         <Row>
             <Col>
 
-                <div id="first" callFunc={getImg()}></div>
+                <div id="first" makeCall={getImg()}></div>
             </Col>
         </Row>
     );
