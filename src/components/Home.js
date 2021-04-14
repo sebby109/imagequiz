@@ -1,25 +1,29 @@
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import flowers from './data';
+import flowers from './Photos';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Images from './Images';
+import Data from './Data';
+import { useHistory } from 'react-router-dom';
+import MakeCard from './MakeCard';
 
+function Home() {
+    const history = useHistory();
+    const [message, setMessage] = useState('');
 
-
-function Home(props) {
+    let sendToData = () => {
+        let message = 'test'
+        setMessage(message);
+        history.push('./data');
+    }
 
     return (
         <div>
         {flowers.map((flowers) => (
-            <li>{ <img src={flowers['picture']} /> } <br/> {flowers['name']} </li>
+            <MakeCard image_url={flowers.picture} name={flowers.name} />
         ))}
         </div>
     );
-
-
 }
 
 export default Home;

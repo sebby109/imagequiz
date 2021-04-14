@@ -1,112 +1,76 @@
-let flowers = [
-    {
-        name: "Acacia",
-        picture: "https://habahram.blob.core.windows.net/flowers/acacia.jpg"
-    },
-    {
-        name: "Alyssum",
-        picture: "https://habahram.blob.core.windows.net/flowers/alyssum.jpg"
-    },
-    {
-        name: "Amaryllis",
-        picture: "https://habahram.blob.core.windows.net/flowers/amaryllis.jpg"
-    },
-    {
-        name: "Aster",
-        picture: "https://habahram.blob.core.windows.net/flowers/aster.jpg"
-    },
-    {
-        name: "Azalea",
-        picture: "https://habahram.blob.core.windows.net/flowers/azalea.jpg"
-    },
-    {
-        name: "Begonia",
-        picture: "https://habahram.blob.core.windows.net/flowers/begonia.jpg"
-    },
-    {
-        name: "Buttercup",
-        picture: "https://habahram.blob.core.windows.net/flowers/buttercup.jpg"
-    },
-    {
-        name: "Calluna",
-        picture: "https://habahram.blob.core.windows.net/flowers/calluna.jpg"
-    },
-    {
-        name: "Camellia",
-        picture: "https://habahram.blob.core.windows.net/flowers/camellia.jpg"
-    },
-    {
-        name: "Cardinal",
-        picture: "https://habahram.blob.core.windows.net/flowers/cardinal.jpg"
-    },
-    {
-        name: "Carnation",
-        picture: "https://habahram.blob.core.windows.net/flowers/carnation.jpg"
-    },
-    {
-        name: "Clover",
-        picture: "https://habahram.blob.core.windows.net/flowers/clover.jpg"
-    },
-    {
-        name: "Crown Imperial",
-        picture: "https://habahram.blob.core.windows.net/flowers/crownimperial.jpg"
-    },
-    {
-        name: "Daffodil",
-        picture: "https://habahram.blob.core.windows.net/flowers/daffodil.jpg"
-    },
-    {
-        name: "Dahlia",
-        picture: "https://habahram.blob.core.windows.net/flowers/dahlia.jpg"
-    },
-    {
-        name: "Daisy",
-        picture: "https://habahram.blob.core.windows.net/flowers/daisy.jpg"
-    },
-    {
-        name: "Gladiolus",
-        picture: "https://habahram.blob.core.windows.net/flowers/gladiolus.jpg"
-    },
-    {
-        name: "Lantana",
-        picture: "https://habahram.blob.core.windows.net/flowers/lantana.jpg"
-    },
-    {
-        name: "Lily",
-        picture: "https://habahram.blob.core.windows.net/flowers/lily.jpg"
-    },
-    {
-        name: "Lotus",
-        picture: "https://habahram.blob.core.windows.net/flowers/lotus.jpg"
-    },
-    {
-        name: "Marigold",
-        picture: "https://habahram.blob.core.windows.net/flowers/Marigold.jpg"
-    },
-    {
-        name: "Orchid",
-        picture: "https://habahram.blob.core.windows.net/flowers/orchid.jpg"
-    },
-    {
-        name: "Primrose",
-        picture: "https://habahram.blob.core.windows.net/flowers/primrose.jpg"
-    },
-    {
-        name: "Sunflower",
-        picture: "https://habahram.blob.core.windows.net/flowers/sunflower.jpg"
-    },
-    {
-        name: "Tickseed",
-        picture: "https://habahram.blob.core.windows.net/flowers/tickseed.jpg"
-    },
-    {
-        name: "Tulip",
-        picture: "https://habahram.blob.core.windows.net/flowers/tulip.jpg"
-    },
-    {
-        name: "Zinnia",
-        picture: "https://habahram.blob.core.windows.net/flowers/zinnia.jpg"
-    }
-];
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Home from './Home';
+import current_image from './CurrentImage';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import flowers from './Photos';
+import { useHistory } from 'react-router-dom';
 
-export default flowers;
+
+function Data() {
+    let curr_pos = current_image.length - 1
+    let curr_name = current_image[curr_pos].name;
+    let im_url = current_image[curr_pos].image;
+    var pos = 0;
+    var other_pos = [1,2];
+    const history = useHistory();
+
+    let getPos = () => {  
+        for (var i=0; i<flowers.length;i++){
+            if (flowers[i].name === curr_name){
+                pos = i;
+                break;
+            }
+        }
+
+        if(pos === 26){
+            other_pos[0] = 24;
+            other_pos[1]= 25;
+        }
+        else if(pos == 25){
+            other_pos[0] = 24;
+            other_pos[1]= 26;
+        }
+
+        else if(pos > 0){
+            other_pos[0] = pos + 1;
+            other_pos[1]= pos + 2;
+        }
+    }
+    getPos()
+
+
+    let handleSubmit = (event) =>{
+        current_image.push({name: event.target.value})
+        history.push('/results');
+    }
+
+    return (
+        <Form>
+            <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
+                <img src={im_url} style={{width:'250px', height:'200px'}}/>
+            </Form.Group>
+            <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
+            <Row>
+                <Button variant="primary" type="submit" style={{margin:'10px'}} value={curr_name} onClick={handleSubmit}>
+                    {curr_name}
+                </Button>
+            </Row>
+            <Row>
+                <Button variant="primary" type="submit" style={{margin:'10px'}} value={flowers[other_pos[0]].name} onClick={handleSubmit}>
+                    {flowers[other_pos[0]].name}
+                </Button>
+            </Row>
+            <Row>
+                <Button variant="primary" type="submit" style={{margin:'10px'}} value={flowers[other_pos[1]].name} onClick={handleSubmit}>
+                    {flowers[other_pos[1]].name}
+                </Button>
+            </Row>
+            </Form.Group>
+        </Form>
+    );
+}
+
+
+export default Data;
