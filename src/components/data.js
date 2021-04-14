@@ -11,7 +11,6 @@ import { useHistory } from 'react-router-dom';
 function Data() {
     let curr_pos = current_image.length - 1
     let curr_name = current_image[curr_pos].name;
-    let im_url = current_image[curr_pos].image;
     var pos = 0;
     var other_pos = [1,2];
     const history = useHistory();
@@ -49,7 +48,7 @@ function Data() {
     return (
         <Form>
             <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
-                <img src={im_url} style={{width:'250px', height:'200px'}}/>
+                <img src={flowers[pos].picture} style={{width:'250px', height:'200px'}}/>
             </Form.Group>
             <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
             <Row>

@@ -42,7 +42,9 @@ function Results(props) {
         <Container>
             <div style={{textAlign:"center"}}>
                 {result} 
-                <br/>
+                <br />
+                <b>Your score: {score}/1</b>
+                <br />
                 <Button variant="primary" type="submit" style={{margin:'10px'}} value="home" onClick={handleClick}>Home</Button>
                 <Button variant="primary" type="submit" style={{margin:'10px'}} value="retake" onClick={handleClick}>Retake quiz</Button>
             </div>
