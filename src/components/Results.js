@@ -24,7 +24,7 @@ function Results(props) {
         else {
             result = "Incorrect answer.";
         }
-    } //let off calculating score and displaying on return
+    }
     getAnswer()
 
     let handleClick = (event) => {

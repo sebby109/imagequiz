@@ -1,15 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import flowers from './Photos';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Data from './Data';
 import { useHistory } from 'react-router-dom';
 import MakeCard from './MakeCard';
+import api from '../communication/api';
 
 function Home() {
     const history = useHistory();
     const [message, setMessage] = useState('');
+    const [places, setPlaces] = useState([]);
 
     let sendToData = () => {
         let message = 'test'
@@ -17,11 +19,17 @@ function Home() {
         history.push('./data');
     }
 
+    useEffect( () => {
+        if(places.length === 0){
+            api.getPlaces().then(x => setPlaces(x)).catch(e => console.log(e));
+        }
+    });
+
     return (
         <div>
-        {flowers.map((flowers) => (
-            <MakeCard image_url={flowers.picture} name={flowers.name} />
-        ))}
+            {places.map((places) => (
+                <MakeCard image_url={places.picture} name={places.name} />
+            ))}
         </div>
     );
 }
