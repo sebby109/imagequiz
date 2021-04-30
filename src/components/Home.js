@@ -23,6 +23,7 @@ function Home() {
         if(places.length === 0){
             api.getPlaces().then(x => setPlaces(x)).catch(e => console.log(e));
         }
+
     });
 
     return (

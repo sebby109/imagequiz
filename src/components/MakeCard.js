@@ -1,15 +1,15 @@
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { render } from '@testing-library/react';
 import { useHistory } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
-import Photos from './Photos';
 import current_image from './CurrentImage';
-import flowers from './Photos';
+import api from '../communication/api';
+import { useState, useEffect } from 'react';
 
 function MakeCard(props) {
     const history = useHistory();
+    const [places, setPlaces] = useState([]);
+
+    //let off here. Was going to make the card as a useState.
+    // then have it change to the quiz once they click the card.
 
     let changePage = () => {
         current_image.push({name: props.name, image: props.image_url});

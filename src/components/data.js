@@ -1,6 +1,4 @@
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Home from './Home';
 import current_image from './CurrentImage';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -27,7 +25,7 @@ function Data() {
             other_pos[0] = 24;
             other_pos[1]= 25;
         }
-        else if(pos == 25){
+        else if(pos === 25){
             other_pos[0] = 24;
             other_pos[1]= 26;
         }
