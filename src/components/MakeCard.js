@@ -8,11 +8,9 @@ function MakeCard(props) {
     const history = useHistory();
     const [places, setPlaces] = useState([]);
 
-    //let off here. Was going to make the card as a useState.
-    // then have it change to the quiz once they click the card.
-
     let changePage = () => {
-        current_image.push({name: props.name, image: props.image_url});
+        let selection = {name: props.name, pos: props.pos, image: props.image_url};
+        api.addCurrent(selection).then(r => console.log(r)).catch(e => alert(e));
         history.push('/data');
     }
 

@@ -23,15 +23,14 @@ function Home() {
         if(places.length === 0){
             api.getPlaces().then(x => setPlaces(x)).catch(e => console.log(e));
         }
-
     });
 
     return (
-        <div>
-            {places.map((places) => (
-                <MakeCard image_url={places.picture} name={places.name} />
-            ))}
-        </div>
+            <div>
+                    {places.map((places) => (
+                        <MakeCard image_url={places.picture} name={places.name} pos={places.pos} />
+                    ))}
+            </div>
     );
 }
 

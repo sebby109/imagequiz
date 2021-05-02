@@ -3,27 +3,28 @@ import current_image from './CurrentImage';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import api from '../communication/api';
 
 function Results(props) {
-    // -2 because the last element will be there choice, and the previous will be right answer to compare.
-    let pos = current_image.length - 2;
-    let user_answer = current_image[pos + 1].name;
-    let curr_name = current_image[pos].name;
-    let result = '';
-    let score = 0;
     const history = useHistory();
+    const [ans, setAns] = useState("");
+    const [score, setScore] = useState(0);
+    let result = "Correct";
 
     let getAnswer = () => {
-        if (current_image[pos].name === current_image[pos + 1].name) {
-            score = 1;
-            result = "Correct!";
-        }
-
-        else {
-            result = "Incorrect answer.";
-        }
+        api.getAnswer().then(x => setAns(x)).catch(e => alert("failed at get answer"));
     }
     getAnswer()
+
+    let getScore = () => {
+        if(ans === "wrong"){
+            result = "Incorrect";
+        }
+        else{
+            api.getScore().then(x => setScore(x)).catch(e => alert("update fail"));
+        }
+    }
 
     let handleClick = (event) => {
         let choice = event.target.value;
@@ -35,13 +36,12 @@ function Results(props) {
             history.push('/data');
         }
     }
-
+    // score kept adding infinite. need to fix before displaying
     return (
-        <Container>
-            <div style={{textAlign:"center"}}>
+        <Container >
+            <div style={{textAlign:"center"}} >
                 {result} 
                 <br />
-                <b>Your score: {score}/1</b>
                 <br />
                 <Button variant="primary" type="submit" style={{margin:'10px'}} value="home" onClick={handleClick}>Home</Button>
                 <Button variant="primary" type="submit" style={{margin:'10px'}} value="retake" onClick={handleClick}>Retake quiz</Button>

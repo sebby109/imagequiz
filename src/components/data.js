@@ -3,69 +3,51 @@ import current_image from './CurrentImage';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import flowers from './Photos';
-import { useHistory } from 'react-router-dom';
-
+import api from '../communication/api';
+import { useState, useEffect } from 'react';
+import Container from 'react-bootstrap/Container';
+import Display from './Display';
 
 function Data() {
-    let curr_pos = current_image.length - 1
-    let curr_name = current_image[curr_pos].name;
-    var pos = 0;
-    var other_pos = [1,2];
-    const history = useHistory();
+    const [currents, setCurrents] = useState([]);
+    const [places, setPlaces] = useState([]);
+    const [single_q, setSingle_q] = useState([]);
 
-    let getPos = () => {  
-        for (var i=0; i<flowers.length;i++){
-            if (flowers[i].name === curr_name){
-                pos = i;
-                break;
+    let getCurrent = () => {
+        if (currents.length === 0) {
+            api.getCurrent().then(x => setCurrents(x)).catch(e => console.log(e));
+        }
+    };
+    getCurrent()
+
+    let getPlaces = () => {
+        if (places.length === 0) {
+            api.getPlaces().then(x => setPlaces(x)).catch(e => console.log(e));
+        }
+    };
+    getPlaces()
+
+    let findPos = () => {
+        let i = 0;
+        let last = currents.length - 1;
+        for(var k = 0; k < places.length; k++) {
+            if (places[k].name === currents[last].name) {
+                i = k;
             }
         }
+        return i;
+    };
 
-        if(pos === 26){
-            other_pos[0] = 24;
-            other_pos[1]= 25;
+    useEffect(() => {
+        if (single_q.length === 0) {
+            api.getQuiz(findPos()).then(x => setSingle_q(x)).catch(e => alert.log(e));
         }
-        else if(pos === 25){
-            other_pos[0] = 24;
-            other_pos[1]= 26;
-        }
-
-        else if(pos > 0){
-            other_pos[0] = pos + 1;
-            other_pos[1]= pos + 2;
-        }
-    }
-    getPos()
-
-
-    let handleSubmit = (event) =>{
-        current_image.push({name: event.target.value})
-        history.push('/results');
-    }
+    });
 
     return (
-        <Form>
-            <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
-                <img src={flowers[pos].picture} style={{width:'250px', height:'200px'}}/>
-            </Form.Group>
-            <Form.Group style={{ width: '18rem', float: 'left', position: 'relative' }}>
-            <Row>
-                <Button variant="primary" type="submit" style={{margin:'10px'}} value={curr_name} onClick={handleSubmit}>
-                    {curr_name}
-                </Button>
-            </Row>
-            <Row>
-                <Button variant="primary" type="submit" style={{margin:'10px'}} value={flowers[other_pos[0]].name} onClick={handleSubmit}>
-                    {flowers[other_pos[0]].name}
-                </Button>
-            </Row>
-            <Row>
-                <Button variant="primary" type="submit" style={{margin:'10px'}} value={flowers[other_pos[1]].name} onClick={handleSubmit}>
-                    {flowers[other_pos[1]].name}
-                </Button>
-            </Row>
-            </Form.Group>
-        </Form>
+        <Container>
+            {single_q === [] ? [] : <Display name1={single_q[0]} name2={single_q[1]} name3={single_q[2]} image={single_q[3]} pos={findPos()} />}
+        </Container>
     );
 }
 
