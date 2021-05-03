@@ -39,7 +39,7 @@ function Display(props) {
             </Row>
             <Row>
             <Button variant="primary" type="submit" style={{margin: '10px'}} value={props.name3} onClick={handleClick} >
-                {props.name3} {props.pos}
+                {props.name3}
             </Button>
             </Row>
         </Form>
